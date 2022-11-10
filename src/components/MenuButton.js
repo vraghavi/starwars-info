@@ -1,9 +1,10 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-const MenuButton = ({page}) => {
+const MenuButton = ({page, api}) => {
+    console.log(api);
     return (
-        <Button color="inherit">{page}</Button>
+        <div><Button color="inherit">{page}</Button></div>
     )
 }
 

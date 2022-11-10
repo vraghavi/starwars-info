@@ -7,15 +7,30 @@ const Navbar = () => {
   var starwarsUrl = "https://swapi.dev/api/"
 
   const [pages, setPages] = useState([]);
+  const [pagesApi, setPagesApi] = useState([]);
 
-  const getPages = async (url) => {
+  const toObject = (apis) => {
+    const resp = [];
+    console.log(apis);
+    if (apis.length > 0) {
+      const keys = Object.keys(apis);
+      keys.forEach((key) => {
+        resp.push({ 'pageName': key, 'pageApi': apis[key] })
+      });
+    }
+    console.log(resp);
+    return resp;
+  }
+
+  const getPagesApi = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
+    setPagesApi(data);
     setPages(Object.keys(data));
   }
 
   useEffect(() => {
-    getPages(starwarsUrl);
+    getPagesApi(starwarsUrl);
   }, [])
 
   return (
@@ -27,7 +42,7 @@ const Navbar = () => {
         <Stack direction="row" spacing={2}>
           {pages.length > 0 ?
             (pages.map((page) => (
-              <MenuButton page={page} />
+              <MenuButton page={page} api={pagesApi[page]} />
             ))) : (<h2>No Movies found</h2>)}
         </Stack>
       </Toolbar>
